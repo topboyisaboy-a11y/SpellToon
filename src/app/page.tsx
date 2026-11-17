@@ -2,23 +2,28 @@
 
 import React, { useState } from 'react';
 import { ScreenType, ChildProfile } from '@/types';
-import { INITIAL_CHILD_PROFILE } from '@/lib/mockData';
+import { DEFAULT_CHILD_PROFILE } from '@/lib/playgroundData';
 import { NavigationBar } from '@/components/NavigationBar';
 import { ParentalGateModal } from '@/components/ParentalGateModal';
 import { ParentDashboard } from '@/components/ParentDashboard';
-import { PictureQuizGame } from '@/components/PictureQuizGame';
-import { BubblePopGame } from '@/components/BubblePopGame';
+import { PlaygroundHub } from '@/components/PlaygroundHub';
+import { VideoPlayerSection } from '@/components/VideoPlayerSection';
 import { ColoringCanvas } from '@/components/ColoringCanvas';
+import { BubblePopGame } from '@/components/BubblePopGame';
 import { StickerAlbum } from '@/components/StickerAlbum';
+import { NumbersActivity } from '@/components/learning/NumbersActivity';
+import { AbcLettersActivity } from '@/components/learning/AbcLettersActivity';
+import { MyBodyActivity } from '@/components/learning/MyBodyActivity';
+import { AnimalsActivity } from '@/components/learning/AnimalsActivity';
+import { ColoursShapesActivity } from '@/components/learning/ColoursShapesActivity';
+import { MusicSoundsActivity } from '@/components/learning/MusicSoundsActivity';
 import { BedtimeLockOverlay } from '@/components/BedtimeLockOverlay';
-import { AudioButton } from '@/components/AudioButton';
 import { sound } from '@/lib/audioEngine';
-import { motion } from 'framer-motion';
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
   const [screenHistory, setScreenHistory] = useState<ScreenType[]>(['home']);
-  const [profile, setProfile] = useState<ChildProfile>(INITIAL_CHILD_PROFILE);
+  const [profile, setProfile] = useState<ChildProfile>(DEFAULT_CHILD_PROFILE);
   const [isParentGateOpen, setIsParentGateOpen] = useState(false);
   const [isLockedByBedtime, setIsLockedByBedtime] = useState(false);
 
@@ -45,18 +50,28 @@ export default function Home() {
     }
   };
 
-  const handleRewardSticker = (stickerId: string) => {
-    if (!profile.unlockedStickerIds.includes(stickerId)) {
+  // Video episode unlocking logic
+  const handleUnlockEpisode = (episodeId: string) => {
+    if (!profile.unlockedEpisodeIds.includes(episodeId)) {
       setProfile((prev) => ({
         ...prev,
-        unlockedStickerIds: [...prev.unlockedStickerIds, stickerId],
+        unlockedEpisodeIds: [...prev.unlockedEpisodeIds, episodeId],
+        wordsLearnedCount: prev.wordsLearnedCount + 3,
       }));
     }
   };
 
+  // Unlock all episodes via parent code
+  const handleUnlockAllEpisodes = () => {
+    setProfile((prev) => ({
+      ...prev,
+      unlockedEpisodeIds: ['ep-1', 'ep-2', 'ep-3', 'ep-4'],
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-cream flex flex-col font-sans select-none overflow-x-hidden">
-      {/* Bedtime / Time Limit Curfew Lockout Overlay */}
+      {/* Bedtime / Screen Time Curfew Lockout Overlay */}
       {isLockedByBedtime && (
         <BedtimeLockOverlay
           childName={profile.name}
@@ -65,7 +80,7 @@ export default function Home() {
         />
       )}
 
-      {/* Navigation Bar (Home, Back, Parents Gate icon) */}
+      {/* Navigation Bar (Strictly Home, Back, and Parent Gate icon) */}
       <NavigationBar
         currentScreen={currentScreen}
         onNavigateHome={handleNavigateHome}
@@ -74,94 +89,60 @@ export default function Home() {
       />
 
       {/* Main Content Areas */}
-      <main className="flex-1 flex flex-col items-center justify-center p-4">
+      <main className="flex-1 flex flex-col items-center justify-center p-3 md:p-6">
+        {/* 1. Main Playground Grid (Matches user uploaded image) */}
         {currentScreen === 'home' && (
-          <div className="w-full max-w-2xl flex flex-col items-center">
-            {/* Child Greeting Badge (Speaks aloud on tap) */}
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.96 }}
-              onClick={() => {
-                sound.playChime(1.1);
-                sound.speak(`Hello ${profile.name}! Let's play and learn!`);
-              }}
-              className="flex items-center gap-4 bg-white/90 px-8 py-4 rounded-4xl shadow-sm border border-cocoa/10 mb-8 cursor-pointer"
-            >
-              <span className="text-5xl">{profile.avatarEmoji}</span>
-              <span className="text-3xl font-black text-cocoa">Hi, {profile.name}!</span>
-            </motion.button>
-
-            {/* 4 Large Hub Activities (Oversized touch targets, speech on tap, warm colors) */}
-            <div className="grid grid-cols-2 gap-5 md:gap-8 w-full">
-              {/* 1. Picture Quiz */}
-              <AudioButton
-                spokenLabel="Picture Quiz"
-                onClick={() => navigateTo('quiz')}
-                variant="yellow"
-                className="h-44 md:h-52"
-              >
-                <span className="text-6xl md:text-7xl mb-2 drop-shadow">🧩</span>
-                <span className="text-xl md:text-2xl font-black">Pictures</span>
-              </AudioButton>
-
-              {/* 2. Coloring Book */}
-              <AudioButton
-                spokenLabel="Coloring Book"
-                onClick={() => navigateTo('coloring')}
-                variant="peach"
-                className="h-44 md:h-52"
-              >
-                <span className="text-6xl md:text-7xl mb-2 drop-shadow">🎨</span>
-                <span className="text-xl md:text-2xl font-black">Coloring</span>
-              </AudioButton>
-
-              {/* 3. Bubble Pop */}
-              <AudioButton
-                spokenLabel="Pop the Bubbles"
-                onClick={() => navigateTo('bubbles')}
-                variant="sky"
-                className="h-44 md:h-52"
-              >
-                <span className="text-6xl md:text-7xl mb-2 drop-shadow">🫧</span>
-                <span className="text-xl md:text-2xl font-black">Bubbles</span>
-              </AudioButton>
-
-              {/* 4. Sticker Book */}
-              <AudioButton
-                spokenLabel="My Stickers"
-                onClick={() => navigateTo('stickers')}
-                variant="mint"
-                className="h-44 md:h-52"
-              >
-                <span className="text-6xl md:text-7xl mb-2 drop-shadow">🌟</span>
-                <span className="text-xl md:text-2xl font-black">Stickers</span>
-              </AudioButton>
-            </div>
-          </div>
+          <PlaygroundHub
+            onNavigate={navigateTo}
+            childName={profile.name}
+            avatarEmoji={profile.avatarEmoji}
+          />
         )}
 
-        {/* Feature 1: Picture Quiz & Matching */}
-        {currentScreen === 'quiz' && (
-          <PictureQuizGame onRewardSticker={handleRewardSticker} />
+        {/* 2. YouTube Cartoon Theater & Word Game Unlock Loop */}
+        {currentScreen === 'videos' && (
+          <VideoPlayerSection
+            unlockedEpisodeIds={profile.unlockedEpisodeIds}
+            onUnlockEpisode={handleUnlockEpisode}
+          />
         )}
 
-        {/* Feature 1B: Bubble Pop Reflex Game */}
+        {/* 3. Colouring Book & Drawing Canvas */}
+        {currentScreen === 'colouring' && <ColoringCanvas />}
+
+        {/* 4. Animals Sound & Word Explorer */}
+        {currentScreen === 'animals' && <AnimalsActivity />}
+
+        {/* 5. Colours & Shapes Activity */}
+        {currentScreen === 'colours-shapes' && <ColoursShapesActivity />}
+
+        {/* 6. Numbers & Counting Activity */}
+        {currentScreen === 'numbers' && <NumbersActivity />}
+
+        {/* 7. ABC Letters & Phonics Activity */}
+        {currentScreen === 'abc-letters' && <AbcLettersActivity />}
+
+        {/* 8. Music & Sounds Lab */}
+        {currentScreen === 'music-sounds' && <MusicSoundsActivity />}
+
+        {/* 9. My Body Parts Explorer */}
+        {currentScreen === 'my-body' && <MyBodyActivity />}
+
+        {/* 10. Bubble Pop Sensory Game */}
         {currentScreen === 'bubbles' && <BubblePopGame />}
 
-        {/* Feature 2: Drawing & Colouring Canvas */}
-        {currentScreen === 'coloring' && <ColoringCanvas />}
-
-        {/* Feature 4: Sticker Album & Rewards */}
+        {/* 11. Sticker Album */}
         {currentScreen === 'stickers' && (
           <StickerAlbum unlockedIds={profile.unlockedStickerIds} />
         )}
 
-        {/* Feature 3: Parent Dashboard */}
+        {/* 12. Parent Dashboard & Monetization */}
         {currentScreen === 'parent' && (
           <ParentDashboard
             profile={profile}
             onUpdateProfile={setProfile}
             onClose={() => setCurrentScreen('home')}
+            onUnlockAllEpisodes={handleUnlockAllEpisodes}
           />
         )}
       </main>

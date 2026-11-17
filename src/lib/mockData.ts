@@ -9,6 +9,10 @@ export const INITIAL_CHILD_PROFILE: ChildProfile = {
   bedtimeMinute: 30,
   unlockedStickerIds: ['sticker-sun', 'sticker-lion', 'sticker-cat'],
   totalTimeMinutes: 14,
+  unlockedEpisodeIds: ['ep-1'],
+  wordsLearnedCount: 24,
+  accuracyScore: 96,
+  dayStreak: 5,
 };
 
 export const PICTURE_WORDS: PictureWord[] = [

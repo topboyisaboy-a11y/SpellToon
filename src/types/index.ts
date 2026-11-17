@@ -1,9 +1,15 @@
 export type ScreenType = 
   | 'home' 
+  | 'videos'
+  | 'colouring'
+  | 'animals'
+  | 'colours-shapes'
+  | 'numbers'
+  | 'abc-letters'
+  | 'music-sounds'
+  | 'my-body'
   | 'quiz' 
-  | 'matching' 
   | 'bubbles' 
-  | 'coloring' 
   | 'stickers' 
   | 'parent';
 
@@ -16,6 +22,54 @@ export interface ChildProfile {
   bedtimeMinute: number;
   unlockedStickerIds: string[];
   totalTimeMinutes: number;
+  unlockedEpisodeIds: string[];
+  wordsLearnedCount: number;
+  accuracyScore: number;
+  dayStreak: number;
+}
+
+export interface VideoEpisode {
+  id: string;
+  title: string;
+  channelName: string;
+  youtubeId: string;
+  thumbnailEmoji: string;
+  duration: string;
+  isUnlocked: boolean;
+  requiredWords: {
+    word: string;
+    emoji: string;
+    prompt: string;
+  }[];
+  subtitleSnippet: string;
+}
+
+export interface LearningItem {
+  id: string;
+  title: string;
+  emoji: string;
+  soundName?: string;
+  detailText?: string;
+  count?: number;
+  color?: string;
+}
+
+export interface FlashcardItem {
+  id: string;
+  word: string;
+  emoji: string;
+  category: string;
+  phonics: string;
+}
+
+export interface WorkbookItem {
+  id: string;
+  title: string;
+  price: string;
+  emoji: string;
+  pages: number;
+  description: string;
+  isPurchased?: boolean;
 }
 
 export interface PictureWord {
