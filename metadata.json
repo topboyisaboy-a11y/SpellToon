@@ -1,0 +1,6 @@
+{
+  "name": "SpellToons",
+  "description": "A rich, colourful editorial multimedia encyclopedia with an interactive MapLibre atlas, zoomable historical timeline, adaptive quizzes, and an AI reading guide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

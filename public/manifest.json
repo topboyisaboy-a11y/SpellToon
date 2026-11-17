@@ -1,0 +1,16 @@
+{
+  "name": "SpellToon",
+  "short_name": "SpellToon",
+  "description": "Picture-and-sound encyclopedia for children aged 2-6 who cannot read.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF5",
+  "theme_color": "#FEE388",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
