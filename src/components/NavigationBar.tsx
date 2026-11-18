@@ -34,7 +34,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
         {/* Brand Logo (Stitch Encanta style) */}
         <button
           type="button"
-          onClick={() => handleNavClick('library', 'Story Library')}
+          onClick={() => handleNavClick('home', 'Home')}
           className="flex items-center gap-3 cursor-pointer text-left"
         >
           <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center shadow-[0_4px_0_#edc22e]">
@@ -54,6 +54,18 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
 
         {/* Center Pill Navigation Bar (Stitch Pill Style) */}
         <nav className="flex items-center gap-1 sm:gap-2 bg-[#F4EBD9]/80 p-1.5 rounded-full overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => handleNavClick('home', 'Home')}
+            className={`font-headline text-[14px] font-bold px-4 md:px-5 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap ${
+              isSelected('home')
+                ? 'bg-primary-container text-on-primary-container shadow-[0_4px_0_#edc22e]'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            Home
+          </button>
+
           <button
             type="button"
             onClick={() => handleNavClick('library', 'Library')}

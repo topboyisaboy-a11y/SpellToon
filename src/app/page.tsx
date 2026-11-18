@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ScreenType, ChildProfile, StoryBook } from '@/types';
 import { DEFAULT_CHILD_PROFILE, STITCH_STORIES } from '@/lib/playgroundData';
 import { NavigationBar } from '@/components/NavigationBar';
+import { HomeScreen } from '@/components/HomeScreen';
 import { StoryLibrary } from '@/components/StoryLibrary';
 import { ReadingTheater } from '@/components/ReadingTheater';
 import { WordCollector } from '@/components/WordCollector';
@@ -24,7 +25,7 @@ import { BedtimeLockOverlay } from '@/components/BedtimeLockOverlay';
 import { sound } from '@/lib/audioEngine';
 
 export default function Home() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenType>('library');
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
   const [profile, setProfile] = useState<ChildProfile>(DEFAULT_CHILD_PROFILE);
   const [activeStory, setActiveStory] = useState<StoryBook>(STITCH_STORIES[0]);
   const [isParentGateOpen, setIsParentGateOpen] = useState(false);
@@ -90,6 +91,14 @@ export default function Home() {
 
       {/* Main Content Areas (padded below fixed header) */}
       <main className="w-full pt-20 min-h-[calc(100vh-80px)] flex-1 flex flex-col items-center">
+        {/* 0. Stitch Encanta Home Screen */}
+        {currentScreen === 'home' && (
+          <HomeScreen
+            onNavigate={navigateTo}
+            onOpenParentGate={() => setIsParentGateOpen(true)}
+          />
+        )}
+
         {/* 1. Stitch Story Library */}
         {currentScreen === 'library' && (
           <StoryLibrary

@@ -1,4 +1,5 @@
 export type ScreenType = 
+  | 'home'
   | 'library'
   | 'theater'
   | 'words'
