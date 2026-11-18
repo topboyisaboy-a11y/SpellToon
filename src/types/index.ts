@@ -1,5 +1,8 @@
 export type ScreenType = 
-  | 'home' 
+  | 'library'
+  | 'theater'
+  | 'words'
+  | 'playground'
   | 'videos'
   | 'colouring'
   | 'animals'
@@ -26,6 +29,44 @@ export interface ChildProfile {
   wordsLearnedCount: number;
   accuracyScore: number;
   dayStreak: number;
+  earnedKeysCount: number;
+}
+
+export interface StoryBook {
+  id: string;
+  title: string;
+  subtitle: string;
+  genre: 'Adventure' | 'Fantasy' | 'Science';
+  level: string;
+  readTime: string;
+  description: string;
+  icon: string;
+  gradient: string;
+  keysEarned: number;
+  totalKeys: number;
+  sentence: {
+    prefix: string;
+    targetWord: string;
+    suffix: string;
+    phonicsClue: string;
+    wordChoices: {
+      word: string;
+      syllables: string;
+      isCorrect: boolean;
+      hint?: string;
+    }[];
+  };
+}
+
+export interface CollectorWord {
+  id: string;
+  word: string;
+  syllables: string;
+  phonics: string;
+  sentence: string;
+  storyTitle: string;
+  theme: string;
+  isCollected: boolean;
 }
 
 export interface VideoEpisode {

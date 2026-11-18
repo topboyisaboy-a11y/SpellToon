@@ -1,4 +1,12 @@
-import { VideoEpisode, LearningItem, FlashcardItem, WorkbookItem, ChildProfile } from '@/types';
+import {
+  VideoEpisode,
+  LearningItem,
+  FlashcardItem,
+  WorkbookItem,
+  ChildProfile,
+  StoryBook,
+  CollectorWord,
+} from '@/types';
 
 // ==========================================
 // 1. DEFAULT CHILD & PARENT PROFILE STATS
@@ -12,16 +20,218 @@ export const DEFAULT_CHILD_PROFILE: ChildProfile = {
   bedtimeMinute: 30,
   unlockedStickerIds: ['sticker-sun', 'sticker-lion', 'sticker-cat'],
   totalTimeMinutes: 20,
-  unlockedEpisodeIds: ['ep-1'], // First episode free; subsequent episodes unlocked via word games or code
+  unlockedEpisodeIds: ['ep-1'],
   wordsLearnedCount: 24,
   accuracyScore: 96,
   dayStreak: 5,
+  earnedKeysCount: 1,
 };
 
 // ==========================================
-// 2. YOUTUBE CARTOON EPISODES & UNLOCK WORDS
+// 2. STITCH STORYBOOKS & GOLDEN KEYS
 // ==========================================
-// Hand-curated embeddable videos with clear speech for toddler language development
+export const STITCH_STORIES: StoryBook[] = [
+  {
+    id: 'story-barnaby',
+    title: "Barnaby's Sky Deck",
+    subtitle: 'Starlit Airship Chapter 2',
+    genre: 'Adventure',
+    level: 'Level 2 · Early Explorer',
+    readTime: '6 min read',
+    description:
+      'Pilot Barnaby steers his brass-trimmed wooden airship through a starry midnight sky to greet friendly creatures made of drifting clouds.',
+    icon: 'flight',
+    gradient: 'from-[#121c36] via-[#1e315c] to-[#264b75]',
+    keysEarned: 1,
+    totalKeys: 3,
+    sentence: {
+      prefix: '“The gentle cloud',
+      targetWord: 'creatures',
+      suffix: 'floated across the shimmering starlight.”',
+      phonicsClue: 'Plural noun with two syllables: crea • tures',
+      wordChoices: [
+        { word: 'whistle', syllables: 'whis • tle', isCorrect: false },
+        { word: 'creatures', syllables: 'crea • tures', isCorrect: true, hint: '★ MATCH' },
+        { word: 'blimp', syllables: '1 syllable', isCorrect: false },
+      ],
+    },
+  },
+  {
+    id: 'story-willow',
+    title: 'The Whispering Willow',
+    subtitle: 'Enchanted Forest Chapter 1',
+    genre: 'Fantasy',
+    level: 'Level 1 · Beginner',
+    readTime: '5 min read',
+    description:
+      'Milo follows tiny glowing fireflies down a mossy garden path to an ancient humming lantern tree full of friendly owls.',
+    icon: 'park',
+    gradient: 'from-[#261b47] to-[#1e4b4f]',
+    keysEarned: 0,
+    totalKeys: 3,
+    sentence: {
+      prefix: '“Tiny golden',
+      targetWord: 'fireflies',
+      suffix: 'blinked softly along the mossy garden path.”',
+      phonicsClue: 'Compound word with two syllables: fire • flies',
+      wordChoices: [
+        { word: 'fireflies', syllables: 'fire • flies', isCorrect: true, hint: '★ MATCH' },
+        { word: 'lantern', syllables: 'lan • tern', isCorrect: false },
+        { word: 'breeze', syllables: '1 syllable', isCorrect: false },
+      ],
+    },
+  },
+  {
+    id: 'story-pip',
+    title: "Captain Pip's Coral Reef",
+    subtitle: 'Deep Blue Bay Exploration',
+    genre: 'Science',
+    level: 'Level 2 · Early Explorer',
+    readTime: '7 min read',
+    description:
+      'Join Pip the otter scientist inside her yellow submarine as she documents glowing coral towers and baby starfish.',
+    icon: 'scuba_diving',
+    gradient: 'from-[#38B6FF] to-[#084b73]',
+    keysEarned: 0,
+    totalKeys: 3,
+    sentence: {
+      prefix: '“Captain Pip spun the brass',
+      targetWord: 'compass',
+      suffix: 'to find the hidden underwater reef.”',
+      phonicsClue: 'Two syllable tool word: com • pass',
+      wordChoices: [
+        { word: 'anchor', syllables: 'an • chor', isCorrect: false },
+        { word: 'compass', syllables: 'com • pass', isCorrect: true, hint: '★ MATCH' },
+        { word: 'splash', syllables: '1 syllable', isCorrect: false },
+      ],
+    },
+  },
+  {
+    id: 'story-luna',
+    title: "Luna's Clockwork Moon",
+    subtitle: 'Sky Workshop Mysteries',
+    genre: 'Adventure',
+    level: 'Level 3 · Curious Reader',
+    readTime: '8 min read',
+    description:
+      'Young inventor Luna climbs a tall brass ladder into the clouds to polish and wind the moon’s shining golden gears.',
+    icon: 'settings',
+    gradient: 'from-[#1b1838] to-[#3b2667]',
+    keysEarned: 0,
+    totalKeys: 3,
+    sentence: {
+      prefix: '“Luna gently oiled the golden',
+      targetWord: 'gears',
+      suffix: 'so the night sky would sparkle softly.”',
+      phonicsClue: 'Plural mechanical noun: gears',
+      wordChoices: [
+        { word: 'ladder', syllables: 'lad • der', isCorrect: false },
+        { word: 'sparks', syllables: '1 syllable', isCorrect: false },
+        { word: 'gears', syllables: '1 syllable', isCorrect: true, hint: '★ MATCH' },
+      ],
+    },
+  },
+];
+
+// ==========================================
+// 3. STITCH WORD COLLECTOR & PHONICS CHEST
+// ==========================================
+export const COLLECTOR_WORDS_DATA: CollectorWord[] = [
+  {
+    id: 'cw-1',
+    word: 'creatures',
+    syllables: 'crea • tures',
+    phonics: '/kree-churz/',
+    sentence: 'The gentle cloud creatures floated across the shimmering starlight.',
+    storyTitle: "Barnaby's Sky Deck",
+    theme: 'Nature & Sky · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-2',
+    word: 'compass',
+    syllables: 'com • pass',
+    phonics: '/kum-pus/',
+    sentence: 'Barnaby polished his brass compass before lifting off into the clouds.',
+    storyTitle: "Barnaby's Sky Deck",
+    theme: 'Tools & Travel · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-3',
+    word: 'fireflies',
+    syllables: 'fire • flies',
+    phonics: '/fyr-flyz/',
+    sentence: 'Tiny golden fireflies blinked softly along the mossy garden path.',
+    storyTitle: 'The Whispering Willow',
+    theme: 'Nature & Animals · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-4',
+    word: 'lantern',
+    syllables: 'lan • tern',
+    phonics: '/lan-turn/',
+    sentence: 'The old willow tree held a glowing lantern that sang sweet tunes.',
+    storyTitle: 'The Whispering Willow',
+    theme: 'Light & Forest · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-5',
+    word: 'submarine',
+    syllables: 'sub • ma • rine',
+    phonics: '/sub-muh-reen/',
+    sentence: 'Captain Pip’s yellow submarine dove deep into the turquoise ocean.',
+    storyTitle: "Captain Pip's Coral Reef",
+    theme: 'Vehicles & Science · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-6',
+    word: 'coral',
+    syllables: 'cor • al',
+    phonics: '/kor-ul/',
+    sentence: 'Colourful coral gardens gave shelter to playful baby clownfish.',
+    storyTitle: "Captain Pip's Coral Reef",
+    theme: 'Ocean Life · Noun',
+    isCollected: true,
+  },
+  {
+    id: 'cw-7',
+    word: 'clockwork',
+    syllables: 'clock • work',
+    phonics: '/klok-wurk/',
+    sentence: 'The clockwork mechanism ticked like a soft heartbeat in the night.',
+    storyTitle: "Luna's Clockwork Moon",
+    theme: 'Invention & Science · Noun',
+    isCollected: false,
+  },
+  {
+    id: 'cw-8',
+    word: 'airship',
+    syllables: 'air • ship',
+    phonics: '/air-ship/',
+    sentence: 'The wooden airship sailed through wisps of silver cloud.',
+    storyTitle: "Barnaby's Sky Deck",
+    theme: 'Flight & Adventure · Noun',
+    isCollected: false,
+  },
+  {
+    id: 'cw-9',
+    word: 'whistle',
+    syllables: 'whis • tle',
+    phonics: '/wis-ul/',
+    sentence: 'The wind began to whistle a friendly bedtime lullaby.',
+    storyTitle: 'The Whispering Willow',
+    theme: 'Sound & Music · Verb',
+    isCollected: false,
+  },
+];
+
+// ==========================================
+// 4. YOUTUBE CARTOON EPISODES & UNLOCK WORDS
+// ==========================================
 export const CARTOON_EPISODES: VideoEpisode[] = [
   {
     id: 'ep-1',
@@ -30,8 +240,9 @@ export const CARTOON_EPISODES: VideoEpisode[] = [
     youtubeId: 'yCjJyiqpAuU',
     thumbnailEmoji: '⭐',
     duration: '3:05',
-    isUnlocked: true, // Free starting episode
-    subtitleSnippet: 'Twinkle, twinkle, little star, how I wonder what you are! Up above the world so high, like a diamond in the sky.',
+    isUnlocked: true,
+    subtitleSnippet:
+      'Twinkle, twinkle, little star, how I wonder what you are! Up above the world so high, like a diamond in the sky.',
     requiredWords: [
       { word: 'Star', emoji: '⭐', prompt: 'Find the Star' },
       { word: 'Sky', emoji: '🌌', prompt: 'Where is the Sky?' },
@@ -45,8 +256,9 @@ export const CARTOON_EPISODES: VideoEpisode[] = [
     youtubeId: 'f77A7Qh3yO0',
     thumbnailEmoji: '🎵',
     duration: '7:15',
-    isUnlocked: false, // Unlocked after completing ep-1 word game
-    subtitleSnippet: 'Hello Pocoyo! What do you have today? Look at those colourful blocks! One, two, three! Let us make some music and dance!',
+    isUnlocked: false,
+    subtitleSnippet:
+      'Hello Pocoyo! What do you have today? Look at those colourful blocks! One, two, three! Let us make some music and dance!',
     requiredWords: [
       { word: 'Duck', emoji: '🦆', prompt: 'Where is the Duck?' },
       { word: 'Music', emoji: '🎵', prompt: 'Find the Music notes' },
@@ -61,7 +273,8 @@ export const CARTOON_EPISODES: VideoEpisode[] = [
     thumbnailEmoji: '🐛',
     duration: '5:40',
     isUnlocked: false,
-    subtitleSnippet: 'Once upon a sunny morning, a little green caterpillar crawled under a big warm leaf. He nibbled on a red apple and a juicy pear.',
+    subtitleSnippet:
+      'Once upon a sunny morning, a little green caterpillar crawled under a big warm leaf. He nibbled on a red apple and a juicy pear.',
     requiredWords: [
       { word: 'Apple', emoji: '🍎', prompt: 'Find the yummy Apple' },
       { word: 'Sun', emoji: '☀️', prompt: 'Tap the bright Sun' },
@@ -76,7 +289,8 @@ export const CARTOON_EPISODES: VideoEpisode[] = [
     thumbnailEmoji: '🐮',
     duration: '4:20',
     isUnlocked: false,
-    subtitleSnippet: 'Old MacDonald had a farm, E-I-E-I-O! And on that farm he had a cow, with a moo-moo here and a moo-moo there.',
+    subtitleSnippet:
+      'Old MacDonald had a farm, E-I-E-I-O! And on that farm he had a cow, with a moo-moo here and a moo-moo there.',
     requiredWords: [
       { word: 'Cow', emoji: '🐮', prompt: 'Where is the Cow?' },
       { word: 'Pig', emoji: '🐷', prompt: 'Find the pink Pig' },
@@ -86,10 +300,8 @@ export const CARTOON_EPISODES: VideoEpisode[] = [
 ];
 
 // ==========================================
-// 3. LEARNING ACTIVITIES DATA
+// 5. LEARNING ACTIVITIES DATA
 // ==========================================
-
-// Numbers 1-10 with counting items
 export const NUMBERS_DATA: LearningItem[] = [
   { id: 'num-1', title: 'One', emoji: '1️⃣', count: 1, detailText: '1 Bright Sun ☀️', color: 'bg-bubble-yellow' },
   { id: 'num-2', title: 'Two', emoji: '2️⃣', count: 2, detailText: '2 Cute Puppies 🐶🐶', color: 'bg-bubble-peach' },
@@ -103,7 +315,6 @@ export const NUMBERS_DATA: LearningItem[] = [
   { id: 'num-10', title: 'Ten', emoji: '🔟', count: 10, detailText: '10 Clapping Hands 👏 (High Five!)', color: 'bg-bubble-peach' },
 ];
 
-// ABC Letters with Phonics
 export const ABC_LETTERS_DATA: LearningItem[] = [
   { id: 'abc-a', title: 'A is for Apple', emoji: '🍎', soundName: 'Ah ah Apple', color: 'bg-bubble-pink' },
   { id: 'abc-b', title: 'B is for Bunny', emoji: '🐰', soundName: 'Buh buh Bunny', color: 'bg-bubble-yellow' },
@@ -118,7 +329,6 @@ export const ABC_LETTERS_DATA: LearningItem[] = [
   { id: 'abc-z', title: 'Z is for Zebra', emoji: '🦓', soundName: 'Zzz Zebra', color: 'bg-bubble-mint' },
 ];
 
-// Parts of the Body
 export const BODY_PARTS_DATA: LearningItem[] = [
   { id: 'body-eyes', title: 'Eyes', emoji: '👀', detailText: 'Two eyes to see the world!', soundName: 'Eyes', color: 'bg-bubble-sky' },
   { id: 'body-nose', title: 'Nose', emoji: '👃', detailText: 'One nose to smell sweet flowers!', soundName: 'Nose', color: 'bg-bubble-peach' },
@@ -129,7 +339,6 @@ export const BODY_PARTS_DATA: LearningItem[] = [
   { id: 'body-heart', title: 'Heart', emoji: '❤️', detailText: 'A loving heart that beats thump-thump!', soundName: 'Heart', color: 'bg-bubble-pink' },
 ];
 
-// Animals with sounds
 export const ANIMALS_DATA: LearningItem[] = [
   { id: 'anim-cow', title: 'Cow', emoji: '🐮', soundName: 'Moo! Moo!', color: 'bg-bubble-yellow' },
   { id: 'anim-lion', title: 'Lion', emoji: '🦁', soundName: 'Roar! The brave lion!', color: 'bg-bubble-peach' },
@@ -140,7 +349,6 @@ export const ANIMALS_DATA: LearningItem[] = [
   { id: 'anim-dog', title: 'Dog', emoji: '🐶', soundName: 'Woof! Woof! Good puppy!', color: 'bg-bubble-peach' },
 ];
 
-// Colours & Shapes
 export const COLOURS_SHAPES_DATA: LearningItem[] = [
   { id: 'shape-circle', title: 'Circle', emoji: '⭕', detailText: 'Round like a ball', soundName: 'Circle', color: 'bg-bubble-yellow' },
   { id: 'shape-square', title: 'Square', emoji: '🟩', detailText: 'Four equal sides', soundName: 'Square', color: 'bg-bubble-mint' },
@@ -153,7 +361,6 @@ export const COLOURS_SHAPES_DATA: LearningItem[] = [
   { id: 'color-green', title: 'Green', emoji: '🟢', soundName: 'Meadow Green', color: 'bg-bubble-mint' },
 ];
 
-// Music & Sounds
 export const MUSIC_INSTRUMENTS_DATA: LearningItem[] = [
   { id: 'inst-xylophone', title: 'Xylophone', emoji: '🎼', soundName: 'Ding! Ting! Chiming xylophone!', color: 'bg-bubble-yellow' },
   { id: 'inst-drum', title: 'Drum', emoji: '🥁', soundName: 'Boom! Boom! Tap the drum!', color: 'bg-bubble-peach' },
@@ -163,9 +370,8 @@ export const MUSIC_INSTRUMENTS_DATA: LearningItem[] = [
 ];
 
 // ==========================================
-// 4. PARENT DASHBOARD FLASHCARDS & WORKBOOKS
+// 6. PARENT DASHBOARD FLASHCARDS & WORKBOOKS
 // ==========================================
-
 export const PRACTICED_FLASHCARDS: FlashcardItem[] = [
   { id: 'fc-1', word: 'STAR', emoji: '⭐', category: 'Night Sky', phonics: '/s/ /t/ /ɑːr/' },
   { id: 'fc-2', word: 'DUCK', emoji: '🦆', category: 'Animals', phonics: '/d/ /ʌ/ /k/' },

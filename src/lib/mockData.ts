@@ -13,6 +13,7 @@ export const INITIAL_CHILD_PROFILE: ChildProfile = {
   wordsLearnedCount: 24,
   accuracyScore: 96,
   dayStreak: 5,
+  earnedKeysCount: 1,
 };
 
 export const PICTURE_WORDS: PictureWord[] = [
