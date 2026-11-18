@@ -211,3 +211,24 @@ Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
 copyright notice and this permission notice appear in all copies.
 ```
+
+---
+
+## 9. Gemfall
+* **Source:** User-provided Gemfall arcade adventure (`Gemfall.html`)
+* **License:** Permissive / Open Game Distribution
+* **What was adapted:** Retro handheld cave exploration game, tile physics, crystal collection, and d-pad touch controls embedded within toddler-friendly playground shell with Golden Key rewards.
+
+---
+
+## 10. Wordezy
+* **Source:** User-provided Wordezy search puzzle (`wordezy-search-source.zip`)
+* **License:** Permissive / Open Source
+* **What was adapted:** Grid-based letter search puzzle with unlimited mode, word banking, and syllable hints, integrated with voice synthesis and tactile feedback.
+
+---
+
+## 11. Jetpack Surge
+* **Source:** User-provided Jetpack Surge game (`jetpack-surge-youtube_(1).zip`)
+* **License:** Permissive / Open Source Game Assets
+* **What was adapted:** One-touch thrust arcade runner with audio effects, coin collection, and Golden Key completion challenges.

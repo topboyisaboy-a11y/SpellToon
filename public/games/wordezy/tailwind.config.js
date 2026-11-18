@@ -1,0 +1,42 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: ["class"],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        ink: "#ffffff",
+        surface: "#f6f6f3",
+        "surface-high": "#e2e3e0",
+        rule: "#d3d6da",
+        paper: "#121212",
+        muted: "#5c5c5c",
+        faint: "#8b8b86",
+        correct: "#3a8b55",
+        "correct-dim": "#2e7045",
+        "correct-soft": "rgba(58,139,85,0.12)",
+        present: "#b5841e",
+        "present-dim": "#946b16",
+        "present-soft": "rgba(181,132,30,0.14)",
+        absent: "#787c7e",
+        danger: "#c23b2e",
+        "danger-soft": "rgba(194,59,46,0.10)",
+      },
+      fontFamily: {
+        display: ["Zilla Slab", "Rockwell", "Georgia", "serif"],
+        sans: ["Libre Franklin", "Helvetica Neue", "Arial", "ui-sans-serif", "system-ui"],
+        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+      },
+      keyframes: {
+        "achievement-in": {
+          "0%": { opacity: "0", transform: "translate(-50%, -12px)" },
+          "100%": { opacity: "1", transform: "translate(-50%, 0)" },
+        },
+      },
+      animation: {
+        "achievement-in": "achievement-in 0.25s ease-out",
+      },
+    },
+  },
+  plugins: [],
+};

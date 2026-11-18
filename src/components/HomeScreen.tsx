@@ -221,19 +221,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             }}
             className="h-11 px-5 rounded-full bg-primary-container text-on-primary-container shadow-[0_3px_0_#edc22e] font-headline text-sm font-bold flex items-center gap-2 cursor-pointer hover:bg-primary-fixed active:translate-y-0.5 transition-all self-start sm:self-auto"
           >
-            <span>View All 10 Activities</span>
+            <span>View All Playground Games</span>
             <span className="material-symbols-outlined text-lg">arrow_forward</span>
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {[
+            { id: 'gemfall', name: 'Gemfall Dig', emoji: '💎', bg: 'bg-[#ffedd5]', shadow: 'shadow-[0_4px_0_#fb923c]' },
+            { id: 'wordezy', name: 'Word Search', emoji: '🔍', bg: 'bg-[#d1fae5]', shadow: 'shadow-[0_4px_0_#34d399]' },
+            { id: 'jetpack', name: 'Jetpack', emoji: '🚀', bg: 'bg-[#dbeafe]', shadow: 'shadow-[0_4px_0_#60a5fa]' },
             { id: 'colouring', name: 'Colouring', emoji: '🖌️', bg: 'bg-[#ffdad9]', shadow: 'shadow-[0_4px_0_#fca5a5]' },
             { id: 'videos', name: 'Videos', emoji: '▶️', bg: 'bg-[#DEC0F1]', shadow: 'shadow-[0_4px_0_#c084fc]' },
             { id: 'animals', name: 'Animals', emoji: '🐮', bg: 'bg-[#FEE388]', shadow: 'shadow-[0_4px_0_#fde047]' },
-            { id: 'numbers', name: 'Numbers', emoji: '🔢', bg: 'bg-[#B5E2FA]', shadow: 'shadow-[0_4px_0_#93c5fd]' },
-            { id: 'abc-letters', name: 'ABC Letters', emoji: '🔤', bg: 'bg-[#dcfce7]', shadow: 'shadow-[0_4px_0_#86efac]' },
-            { id: 'music-sounds', name: 'Music', emoji: '🎵', bg: 'bg-[#f3e8ff]', shadow: 'shadow-[0_4px_0_#d8b4fe]' },
           ].map((act) => (
             <button
               key={act.id}

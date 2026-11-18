@@ -22,6 +22,9 @@ import { MusicSoundsActivity } from '@/components/learning/MusicSoundsActivity';
 import { ParentalGateModal } from '@/components/ParentalGateModal';
 import { ParentDashboard } from '@/components/ParentDashboard';
 import { BedtimeLockOverlay } from '@/components/BedtimeLockOverlay';
+import { GemfallGameView } from '@/components/games/GemfallGameView';
+import { WordezyGameView } from '@/components/games/WordezyGameView';
+import { JetpackSurgeView } from '@/components/games/JetpackSurgeView';
 import { sound } from '@/lib/audioEngine';
 
 export default function Home() {
@@ -165,6 +168,30 @@ export default function Home() {
         {/* 14. Sticker Album */}
         {currentScreen === 'stickers' && (
           <StickerAlbum unlockedIds={profile.unlockedStickerIds} />
+        )}
+
+        {/* 15. Gemfall Cave Digging Adventure */}
+        {currentScreen === 'gemfall' && (
+          <GemfallGameView
+            onBack={() => setCurrentScreen('playground')}
+            onEarnKey={handleEarnGoldenKey}
+          />
+        )}
+
+        {/* 16. Wordezy Word Search Puzzle */}
+        {currentScreen === 'wordezy' && (
+          <WordezyGameView
+            onBack={() => setCurrentScreen('playground')}
+            onEarnKey={handleEarnGoldenKey}
+          />
+        )}
+
+        {/* 17. Jetpack Surge Action Game */}
+        {currentScreen === 'jetpack' && (
+          <JetpackSurgeView
+            onBack={() => setCurrentScreen('playground')}
+            onEarnKey={handleEarnGoldenKey}
+          />
         )}
 
         {/* 15. Parent Dashboard & Safe Monetization */}

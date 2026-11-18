@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://www.youtube.com/game_api/v1"></script>
+    <script>
+      window.JD_BUILD = "youtube";
+      // YouTube Playables: the game must pause only via ytgame onPause/onResume,
+      // never the Page Visibility API. Drop visibilitychange listeners (the
+      // engine registers one internally).
+      (function () {
+        var add = Document.prototype.addEventListener;
+        Document.prototype.addEventListener = function (type, fn, opts) {
+          if (/visibilitychange$/i.test(String(type))) return;
+          return add.call(this, type, fn, opts);
+        };
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#070d1f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description" content="Jetpack Surge — a portrait jetpack runner. Hold to fly, dodge lasers, grab coins." />
+    <title>Jetpack Surge</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <link rel="preload" href="assets/fonts/lilita-one.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="assets/logo.webp" as="image" />
+    <link rel="stylesheet" href="src/style.css" />
+    <!-- Fetch every game module in parallel with the engine, instead of
+         discovering them one import level at a time. -->
+    <link rel="modulepreload" href="src/main.js" />
+    <link rel="modulepreload" href="src/config.js" />
+    <link rel="modulepreload" href="src/platform.js" />
+    <link rel="modulepreload" href="src/save.js" />
+    <link rel="modulepreload" href="src/ui.js" />
+    <link rel="modulepreload" href="src/game.js" />
+    <link rel="modulepreload" href="src/art.js" />
+    <link rel="modulepreload" href="src/audio.js" />
+    <link rel="modulepreload" href="src/classic.js" />
+    <link rel="modulepreload" href="src/vehicles.js" />
+  </head>
+  <body>
+    <div id="loader">
+      <div class="ld-logo"><img src="assets/logo.webp" alt="Jetpack Surge" /></div>
+      <div class="ld-bar"><i id="ldFill"></i></div>
+      <div class="ld-tip" id="ldTip">Fuelling jetpack…</div>
+    </div>
+    <main id="app" aria-label="Jetpack Surge game"></main>
+    <script src="vendor/phaser.min.js"></script>
+    <script>
+      // The engine is in: start the default pilot's art now (not earlier, so
+      // on a slow connection the engine gets the bandwidth first). The image is
+      // decoded in the background before BootScene hands it to Phaser.
+      window.__jdEarly = (function () {
+        var img = new Image();
+        img.fetchPriority = "high";
+        var image = new Promise(function (ok, fail) {
+          img.onload = function () {
+            if (img.decode) img.decode().then(function () { ok(img); }, function () { ok(img); });
+            else ok(img);
+          };
+          img.onerror = fail;
+        });
+        img.src = "assets/sprites/scout.webp";
+        var json = fetch("assets/sprites/scout.json").then(function (r) {
+          if (!r.ok) throw new Error("scout.json " + r.status);
+          return r.json();
+        });
+        var both = Promise.all([image, json]);
+        both.catch(function () {});
+        return { scout: both };
+      })();
+    </script>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

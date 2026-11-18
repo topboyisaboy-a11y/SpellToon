@@ -131,7 +131,36 @@ export const PlaygroundHub: React.FC<PlaygroundHubProps> = ({
       textClass: 'text-[#7C2D12]',
     },
 
-    // Row 5 (Bonus Games & Rewards)
+    // Row 5 (Arcade & Word Games)
+    {
+      id: 'gemfall',
+      title: 'Gemfall Dig',
+      spokenLabel: 'Gemfall Cave Digging Adventure',
+      icon: <span className="text-4xl md:text-5xl">💎</span>,
+      bgClass: 'bg-[#FFF7ED]',
+      borderClass: 'border-[#F97316]',
+      textClass: 'text-[#9A3412]',
+    },
+    {
+      id: 'wordezy',
+      title: 'Word Search',
+      spokenLabel: 'Word Search Puzzle',
+      icon: <span className="text-4xl md:text-5xl">🔍</span>,
+      bgClass: 'bg-[#ECFDF5]',
+      borderClass: 'border-[#10B981]',
+      textClass: 'text-[#065F46]',
+    },
+
+    // Row 6 (Action & Skill)
+    {
+      id: 'jetpack',
+      title: 'Jetpack Surge',
+      spokenLabel: 'Jetpack Flying Game',
+      icon: <span className="text-4xl md:text-5xl">🚀</span>,
+      bgClass: 'bg-[#EFF6FF]',
+      borderClass: 'border-[#3B82F6]',
+      textClass: 'text-[#1E40AF]',
+    },
     {
       id: 'bubbles',
       title: 'Bubble Pop',
@@ -141,6 +170,8 @@ export const PlaygroundHub: React.FC<PlaygroundHubProps> = ({
       borderClass: 'border-[#38BDF8]',
       textClass: 'text-[#0C4A6E]',
     },
+
+    // Row 7 (Sticker Album)
     {
       id: 'stickers',
       title: 'My Stickers',

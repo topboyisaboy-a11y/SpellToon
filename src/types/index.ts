@@ -15,6 +15,9 @@ export type ScreenType =
   | 'quiz' 
   | 'bubbles' 
   | 'stickers' 
+  | 'gemfall'
+  | 'wordezy'
+  | 'jetpack'
   | 'parent';
 
 export interface ChildProfile {
